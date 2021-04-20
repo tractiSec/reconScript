@@ -19,15 +19,14 @@ run_nmap(){
 	echo " "
 	echo "Executing nmap...";
 	echo " "
-	ip_regex="^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$"
 
 	for i in "${domain_list[@]}"
 	do
-		target=domain_list[$i]
-
-		if ! [[$target =~ $ip_regex]]; 
+		target=$i
+	
+		if [[ ! $target =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] 
 			then
-				target=dig +short $target
+				target= dig +short $target				
 		fi
 		
 		nmap -sV -sT -sU -p- -Pn $target -o "nmap/${target}.txt"
